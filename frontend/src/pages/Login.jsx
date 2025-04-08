@@ -21,7 +21,7 @@ const Login = () => {
       toast.success("Login successful!");
     } catch (err) {
       console.error(err);
-      toast.error(err?.response?.data + "\t" + err?.status);
+      toast.error(err?.response?.data);
     }
   };
 
