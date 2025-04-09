@@ -12,9 +12,10 @@ public class UserAuthEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String first_name;
+    private String last_name;
     @Column(unique = true)
-    private String username;
+    private String email;
 
     private String password;
 

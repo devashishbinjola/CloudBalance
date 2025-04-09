@@ -41,10 +41,10 @@ public class AuthController {
         );
 
 
-        UserAuthEntity user = userRepo.findByUsername(loginRequest.getUsername())
+        UserAuthEntity user = userRepo.findByEmail(loginRequest.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
 
         // Match Role enum to Roles entity
         Roles roleEntity = rolesRepo.findByRoleName(user.getRole().name())
