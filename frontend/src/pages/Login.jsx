@@ -4,19 +4,24 @@ import "react-toastify/dist/ReactToastify.css";
 import { loginUser } from "../api/auth";
 import "../css/Login.css";
 import logo from "../../public/logocloudbalance.png"
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/actions/authActions";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch =useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await loginUser(username, password);
-      const { token, role } = res.data;
+      dispatch(loginSuccess(res.data))
+    //   const { token, role ,permission} = res.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
+    //   localStorage.setItem("token", token);
+    //   localStorage.setItem("role", role);
+    //   localStorage.setItem("permission",permission)
 
       toast.success("Login successful!");
     } catch (err) {

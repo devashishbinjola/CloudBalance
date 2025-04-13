@@ -46,7 +46,6 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
 
-        // Match Role enum to Roles entity
         Roles roleEntity = rolesRepo.findByRoleName(user.getRole().name())
                 .orElseThrow(() -> new RuntimeException("Role entity not found"));
 
@@ -55,7 +54,7 @@ public class AuthController {
                 .map(Permission::getPermissionName)
                 .collect(Collectors.toList());
 
-        return new JwtResponse(token, user.getRole().name(), permissionNames);
+        return new JwtResponse(token, user.getRole().name(), permissionNames,user.getFirst_name(),user.getLast_name());
 //        return new JwtResponse(token, user.getRole().name());
 
     }

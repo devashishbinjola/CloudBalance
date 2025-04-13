@@ -33,7 +33,7 @@ public class JwtAuthFilter extends GenericFilter {
         System.out.println("Incoming request path: " + path);
 
         if (path.equals("/api/auth/login")) {
-            System.out.println("Skipping JWT filter for login path.");
+
             chain.doFilter(request, response);
             return;
         }

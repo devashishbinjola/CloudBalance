@@ -2,6 +2,7 @@ package com.CLOUDBALANCE.BACKEND.service.ServiceImpl;
 
 import com.CLOUDBALANCE.BACKEND.dto.UserDetailsDto;
 import com.CLOUDBALANCE.BACKEND.dto.UserSummaryDto;
+import com.CLOUDBALANCE.BACKEND.exception.AccessDeniedException;
 import com.CLOUDBALANCE.BACKEND.exception.InvalidRoleException;
 import com.CLOUDBALANCE.BACKEND.exception.UserAlreadyExistsException;
 import com.CLOUDBALANCE.BACKEND.model.Role;
@@ -12,6 +13,8 @@ import com.CLOUDBALANCE.BACKEND.service.ServiceImpl.mapper.UserMapper;
 import com.CLOUDBALANCE.BACKEND.service.UserService;
 import com.CLOUDBALANCE.BACKEND.service.UserValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private final RolesRepository rolesRepository;
     private final UserValidationService userValidationService;
     private final UserMapper userMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public String createUser(UserDetailsDto userDto) {
         if(userValidationService.isUserExists(userDto.getEmail())){
@@ -37,8 +42,12 @@ public class UserServiceImpl implements UserService {
         if(userDto.getRole()==null || userDto.getRole().isBlank()){
             throw new InvalidRoleException();
         }
+//        if(!userDto.getRole().equals("ADMIN")){
+//            throw new AccessDeniedException();
+//        }
 
         UserAuthEntity user = userMapper.toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userAuthRepository.save(user);
         return "User Saved Successfully";
     }

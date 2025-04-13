@@ -23,6 +23,7 @@ public class UserManagementController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserDetailsDto dto){
         String result = userService.createUser(dto);
+
         return ResponseEntity.ok(result);
     }
 
