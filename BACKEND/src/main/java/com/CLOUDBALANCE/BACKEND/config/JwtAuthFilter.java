@@ -54,7 +54,7 @@ public class JwtAuthFilter extends GenericFilter {
 //                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 //                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpReq));
 //                SecurityContextHolder.getContext().setAuthentication(auth);
-                String role = jwtUtil.extractRole(token); // You need to implement this
+                String role = jwtUtil.extractRole(token);
                 List<SimpleGrantedAuthority> authorities = List.of(
                         new SimpleGrantedAuthority("ROLE_" + role)
                 );

@@ -6,24 +6,30 @@ import "../css/Login.css";
 import logo from "../../public/logocloudbalance.png"
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/actions/authActions";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch =useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await loginUser(username, password);
       dispatch(loginSuccess(res.data))
-    //   const { token, role ,permission} = res.data;
-
-    //   localStorage.setItem("token", token);
-    //   localStorage.setItem("role", role);
-    //   localStorage.setItem("permission",permission)
 
       toast.success("Login successful!");
+
+      const userRole = res.data.role.toLowerCase();
+
+      if(userRole=="admin"){
+        navigate("/dashboard/user-management")
+      }else{
+        navigate("/dashboard");
+      }
+      
     } catch (err) {
       console.error(err);
       toast.error(err?.response?.data);

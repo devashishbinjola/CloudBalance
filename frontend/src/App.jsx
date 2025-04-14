@@ -1,22 +1,30 @@
 import React from "react";
-import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
-import { Route, Router, Routes } from "react-router-dom";
-import Unauthorized from "./pages/Unauthorized";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard"; 
+import UserManagement from "./components/UserManagement";
+import CostExplorer from "./components/CostExplorer";
+import Onboarding from "./components/Onboarding";
+import AmazonServiceDashboard from "./components/AmazonServiceDashboard";
+
 
 function App() {
   return (
     <>
-      
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Login/>
-      {/* <Router>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <BrowserRouter>
+        <ToastContainer position="top-right" autoClose={3000} />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/dashboard" element={<Dashboard />} >
+          <Route path="user-management" element={<UserManagement />} />
+          <Route path="cost-explorer" element={<CostExplorer />} />
+          <Route path="onboarding" element={<Onboarding />} />
+          <Route path="amazon-service-dashboard" element={<AmazonServiceDashboard />} />
+          </Route>
+          
         </Routes>
-      </Router> */}
+      </BrowserRouter>
     </>
   );
 }
