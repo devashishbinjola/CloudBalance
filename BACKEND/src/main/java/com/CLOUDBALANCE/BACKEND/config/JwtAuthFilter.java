@@ -1,5 +1,6 @@
 package com.CLOUDBALANCE.BACKEND.config;
 
+import com.CLOUDBALANCE.BACKEND.repository.BlacklistedTokenRepository;
 import com.CLOUDBALANCE.BACKEND.service.CustomUserDetailsService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -22,6 +23,9 @@ public class JwtAuthFilter extends GenericFilter {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
+    @Autowired
+    private BlacklistedTokenRepository blacklistedTokenRepository;
+
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -46,6 +50,12 @@ public class JwtAuthFilter extends GenericFilter {
             token = authHeader.substring(7);
             username = jwtUtil.extractUsername(token);
         }
+        if (token != null && blacklistedTokenRepository.existsByToken(token)) {
+            ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token is blacklisted.");
+            return;
+        }
+
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (jwtUtil.validateToken(token)) {

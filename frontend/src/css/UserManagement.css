@@ -1,75 +1,144 @@
 .user-management-container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* max-width: 1200px; */
+  /* margin: 40px auto; */
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .user-management-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .user-management-header h2 {
-    margin: 0;
-    font-size: 28px;
-    color: #333;
-  }
-  
-  .add-user-btn {
-    background-color: #1976d2;
-    color: white;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-user-btn:hover {
-    background-color: #125ea7;
-  }
-  
-  .user-table {
-    overflow-x: auto;
-  }
-  
-  .user-table table {
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .user-table th,
-  .user-table td {
-    border: 1px solid #e0e0e0;
-    padding: 12px 16px;
-    text-align: left;
-  }
-  
-  .user-table th {
-    background-color: #f5f5f5;
-    font-weight: 600;
-    color: #444;
-  }
-  
-  .user-table tbody tr:nth-child(even) {
-    background-color: #fafafa;
-  }
-  
-  .user-table tbody tr:hover {
-    background-color: #f0f8ff;
-    transition: background-color 0.2s ease;
-  }
-  
-  .user-table td {
-    color: #555;
-  }
-  
+}
+
+.user-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.user-management-header h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.add-user-btn {
+  background-color: #1976d2;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-user-btn:hover {
+  background-color: #125ea7;
+  transform: scale(1.03);
+}
+
+.user-table {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.user-table table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.user-table th,
+.user-table td {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 15px;
+}
+
+.user-table th {
+  background-color: #e3f2fd;
+  font-weight: 600;
+  color: #0d47a1;
+  border-bottom: 2px solid #bbdefb;
+}
+
+.user-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.user-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.user-table tbody tr:hover {
+  background-color: #e8f4ff;
+}
+
+.user-table td {
+  color: #444;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.edit-icon {
+  color: #1976d2;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+  color: #0d47a1;
+  cursor: pointer;
+}
+
+/* Pagination styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 15px;
+  align-items: center;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  background-color: #1976d2;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination button:disabled {
+  background-color: #cfd8dc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #0d47a1;
+  transform: scale(1.05);
+}
+
+.pagination span {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}

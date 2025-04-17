@@ -17,4 +17,5 @@ public interface UserService {
     List<UserSummaryDto> getAllUsers();
 //    String assignRole(Long userId,String roleName);
 
+    String updateUser(Long userId,UserDetailsDto dto);
 }

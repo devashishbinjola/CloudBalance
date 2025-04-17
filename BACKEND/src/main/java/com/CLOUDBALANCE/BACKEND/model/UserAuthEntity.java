@@ -1,12 +1,19 @@
 package com.CLOUDBALANCE.BACKEND.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"accounts"})
 public class UserAuthEntity {
 
     @Id
@@ -22,4 +29,14 @@ public class UserAuthEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private LocalDateTime lastLogin;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_account",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "account_id")
+    )
+    private Set<Account> accounts = new HashSet<>();
 }

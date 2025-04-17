@@ -36,7 +36,8 @@ public class UserMapper {
                 user.getFirst_name(),
                 user.getLast_name(),
                 user.getEmail(),
-                user.getRole().name());
+                user.getRole().name(),
+                user.getLastLogin());
                 return dto;
     }
 }

@@ -32,4 +32,13 @@ public class UserManagementController {
     public ResponseEntity<List<UserSummaryDto>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{userId}")
+    public ResponseEntity<String> updateUser(@PathVariable Long userId,@RequestBody UserDetailsDto userDto
+    ) {
+        String message = userService.updateUser(userId, userDto);
+        return ResponseEntity.ok(message);
+    }
+
 }

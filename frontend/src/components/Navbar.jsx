@@ -1,30 +1,57 @@
-import React from 'react'
+import React from "react";
 import "../css/Navbar.css";
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import {logout} from '../../src/redux/actions/authActions'
-import logo from '../../public/logocloudbalance.png'
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../src/redux/actions/authActions";
+import logo from "../../public/logocloudbalance.png";
+import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
-    const dispatch=useDispatch();
-    const navigate = useNavigate();
-    const firstName = localStorage.getItem("fristName");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const firstName = localStorage.getItem("firstName");
+  const lastName = localStorage.getItem("lastName");
 
-    const handleLogout = () =>{
+  // const handleLogout = () =>{
+  //   dispatch(logout());
+  //   navigate("/")
+  // }
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      await fetch("http://localhost:8080/api/auth/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (err) {
+      console.error("Logout failed", err);
+    } finally {
+      localStorage.clear();
       dispatch(logout());
-      navigate("/")
+      navigate("/");
     }
+  };
   return (
-    <nav className='navbar'>
+    <nav className="navbar">
       <div className="navbar-left">
-        <img src={logo} alt='CloudBalance Logo' className='navbar-logo'></img>
+        <img src={logo} alt="CloudBalance Logo" className="navbar-logo"></img>
       </div>
       <div className="navbar-right">
-      <span className='username'>{firstName}</span>
-      <button className='logout-btn' onClick={handleLogout}>Logout</button>
+        <div className="user-info">
+          <FaUserCircle className="user-icon" />
+          <div className="user-name">
+            <span className="first-name">Hello, {firstName}</span>
+            <span className="last-name">{lastName}</span>
+          </div>
+        </div>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </nav>
-  )
-}
+  );
+};
 
 export default Navbar;
