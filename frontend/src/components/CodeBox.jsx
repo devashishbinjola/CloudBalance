@@ -15,7 +15,7 @@ const CodeBox = ({ code }) => {
     <div className="code-box-container">
       <div className="code-box-wrapper" onClick={handleCopy}>
         <button className="copy-button" onClick={(e) => {
-          e.stopPropagation(); // prevent propagation if clicking button
+          e.stopPropagation(); 
           handleCopy();
         }}>
           {copied ? <FiCheck /> : <FiCopy />}
@@ -24,7 +24,7 @@ const CodeBox = ({ code }) => {
           <code>{code}</code>
         </pre>
       </div>
-      <p className="helper-text">Click anywhere in the box to copy the content</p>
+      <span className="helper-text">Click anywhere in the box to copy the content</span>
     </div>
   );
 };

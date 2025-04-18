@@ -1,8 +1,10 @@
 package com.CLOUDBALANCE.BACKEND.service.ServiceImpl;
 
 import com.CLOUDBALANCE.BACKEND.dto.AccountDto;
+import com.CLOUDBALANCE.BACKEND.model.Account;
 import com.CLOUDBALANCE.BACKEND.repository.AccountRepository;
 import com.CLOUDBALANCE.BACKEND.service.AccountService;
+import com.CLOUDBALANCE.BACKEND.service.AccountValidationService;
 import com.CLOUDBALANCE.BACKEND.service.ServiceImpl.mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,25 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private AccountValidationService accountValidationService;
     @Override
     public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll().stream()
                 .map(accountMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String createAccount(AccountDto dto) {
+        if(accountValidationService.isAccountExists(dto.getId())){
+            throw
+        }
+        Account newAcc=
+        accountMapper.toEntity(dto);
+        accountRepository.save(newAcc);
+        return "Account Successfully Created...";
     }
 }

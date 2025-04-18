@@ -1,31 +1,25 @@
-.main {
-    margin-top: 20px;
-    line-height: 1.7;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-  }
-  
-  .main p {
-    position: relative;
-    padding-left: 40px;
-    font-size: 16px;
-  }
-  
-  .step-number {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 28px;
-    height: 28px;
-    background-color: #d3d3d3;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 14px;
-    color: #000;
-  }
+.next-button,
+.back-button,
+.cancel-button,
+.submit-button {
+  margin: 20px 10px 0 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #1422df;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-  
+.next-button:hover,
+.back-button:hover,
+.cancel-button:hover,
+.submit-button:hover {
+  background-color: #0e1abc;
+}
+
+.onboarding-controls{
+    display: flex;
+    justify-content: space-between;
+}
