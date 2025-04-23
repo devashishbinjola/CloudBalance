@@ -4,5 +4,7 @@ import com.CLOUDBALANCE.BACKEND.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccountRepository extends JpaRepository<Account,Long> {
-
+    boolean existsByAccountNo(Long accountNo);
+//    boolean existsByArn(String arn)
+boolean existsByArnNo(String arnNo);
 }

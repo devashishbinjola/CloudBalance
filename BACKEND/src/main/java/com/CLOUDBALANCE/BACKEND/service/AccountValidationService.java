@@ -11,7 +11,11 @@ public class AccountValidationService {
 
     private final AccountRepository accountRepository;
 
-    public boolean isAccountExists(Long id){
-        return accountRepository.findById(id).isPresent();
+    public boolean isAccountExists(Long accountNo){
+        return accountRepository.existsByAccountNo(accountNo);
     }
+    public boolean isArnExists(String arnNo){
+        return accountRepository.existsByArnNo(arnNo);
+    }
+
 }

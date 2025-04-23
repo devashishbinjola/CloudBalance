@@ -23,10 +23,10 @@ public class AccountController {
     public ResponseEntity<List<AccountDto>> getAllAccounts(){
         return ResponseEntity.ok(accountService.getAllAccounts());
     }
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping
-//    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto){
-//        accountService.createAccount(dto);
-//       return ResponseEntity.ok("");
-//    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
+    public ResponseEntity<String> createAccount(@RequestBody AccountDto dto){
+       String result= accountService.createAccount(dto);
+       return ResponseEntity.ok(result);
+    }
 }

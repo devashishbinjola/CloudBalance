@@ -19,9 +19,9 @@ public class Account {
     private Long id;
     @Column(unique = true,nullable = false)
     private Long accountNo;
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String name;
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String arnNo;
 
     @ManyToMany(mappedBy = "accounts")

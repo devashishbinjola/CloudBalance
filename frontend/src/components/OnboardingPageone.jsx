@@ -1,11 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import CodeBox from "./CodeBox";
 import CodeBoxSmall from "./CodeBoxSmall";
 import roleimg from "../../public/cktunerrole.png";
 import "../css/OnboardingAll.css";
 
-const OnboardingPageone = () => {
+const OnboardingPageone = ({ formData, setFormData }) => {
   const customTrustPolicy = {
     Version: "2012-10-17",
     Statement: [
@@ -31,7 +30,9 @@ const OnboardingPageone = () => {
       },
     ],
   };
+
   const createRole = "CK-Tuner-Role-dev2";
+
   return (
     <div>
       <h1>Create an IAM Role</h1>
@@ -69,27 +70,55 @@ const OnboardingPageone = () => {
           Role and copy the Role ARN -
         </p>
         <img src={roleimg} alt="CkTunerRoleImg" />
+
         <p>
           <span className="step-number">6</span> Paste the copied Role ARN below
           -
         </p>
+
         <form className="iamrole-form">
-  <div className="form-group">
-    <label htmlFor="accountId">Account ID</label>
-    <input type="text" id="accountId" name="accountId" required />
-  </div>
+          <div className="form-group">
+            <label htmlFor="accountNo">Account Number</label>
+            <input
+              type="text"
+              id="accountNo"
+              name="accountNo"
+              value={formData.accountNo}
+              onChange={(e) =>
+                setFormData({ ...formData, accountNo: e.target.value })
+              }
+              required
+            />
+          </div>
 
-  <div className="form-group">
-    <label htmlFor="accountName">Account Name</label>
-    <input type="text" id="accountName" name="accountName" required />
-  </div>
+          <div className="form-group">
+            <label htmlFor="name">Account Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              required
+            />
+          </div>
 
-  <div className="form-group">
-    <label htmlFor="arn">Role ARN</label>
-    <input type="text" id="arn" name="arn" required />
-  </div>
-</form>
-
+          <div className="form-group">
+            <label htmlFor="arnNo">Role ARN</label>
+            <input
+              type="text"
+              id="arnNo"
+              name="arnNo"
+              value={formData.arnNo}
+              onChange={(e) =>
+                setFormData({ ...formData, arnNo: e.target.value })
+              }
+              required
+            />
+          </div>
+        </form>
       </div>
     </div>
   );

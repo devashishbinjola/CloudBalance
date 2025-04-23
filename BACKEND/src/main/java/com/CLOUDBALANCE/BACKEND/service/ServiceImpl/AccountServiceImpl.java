@@ -1,6 +1,8 @@
 package com.CLOUDBALANCE.BACKEND.service.ServiceImpl;
 
 import com.CLOUDBALANCE.BACKEND.dto.AccountDto;
+import com.CLOUDBALANCE.BACKEND.exception.AccountExistsException;
+import com.CLOUDBALANCE.BACKEND.exception.ArnAlreadyExistException;
 import com.CLOUDBALANCE.BACKEND.model.Account;
 import com.CLOUDBALANCE.BACKEND.repository.AccountRepository;
 import com.CLOUDBALANCE.BACKEND.service.AccountService;
@@ -29,9 +31,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String createAccount(AccountDto dto) {
-        if(accountValidationService.isAccountExists(dto.getId())){
-            throw
+        if(accountValidationService.isAccountExists(dto.getAccountNo())){
+            throw new AccountExistsException();
         }
+        if(accountValidationService.isArnExists(dto.getArnNo())){
+            throw new ArnAlreadyExistException();
+        }
+
         Account newAcc=
         accountMapper.toEntity(dto);
         accountRepository.save(newAcc);
