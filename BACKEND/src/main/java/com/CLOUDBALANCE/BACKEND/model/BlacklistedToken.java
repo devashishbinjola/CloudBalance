@@ -20,6 +20,7 @@ public class BlacklistedToken {
     @Column(nullable = false, unique = true, length = 500)
     private String token;
 
+    @Column(name = "blacklisted_at")
     private LocalDateTime blacklistedAt = LocalDateTime.now();
 
 

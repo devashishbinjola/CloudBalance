@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AccountSelector from "./AccountSelector";
-import "../css/AmazonServiceDashboard.css";
+import AccountSelector from "../../AccountSelector/AccountSelector";
+import "./AmazonServiceDashboard.css";
 import ServiceButtons from "./ServiceButtons";
 import DataTable from "./DataTable";
 
@@ -10,6 +10,7 @@ const AmazonServiceDashboard = () => {
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [service, setService] = useState("");
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,6 +33,7 @@ const AmazonServiceDashboard = () => {
   const fetchData = async (serviceType) => {
     if (!selectedAccount) return;
     setService(serviceType);
+    setLoading(true); // Start loading
   
     const token = localStorage.getItem("token");
   
@@ -41,13 +43,15 @@ const AmazonServiceDashboard = () => {
           Authorization: `Bearer ${token}`,
         },
         params: {
-          id: selectedAccount.accountNo, // only sending accountNo as id
+          id: selectedAccount.accountNo,
         },
       });
       setData(response.data);
     } catch (err) {
       console.error(`Error fetching ${serviceType} data:`, err);
       setData([]);
+    } finally {
+      setLoading(false); // End loading
     }
   };
   
@@ -66,7 +70,7 @@ const AmazonServiceDashboard = () => {
       </div>
 
       <ServiceButtons onFetch={fetchData} />
-      <DataTable service={service} data={data} />
+      <DataTable service={service} data={data} loading={loading} />
     </div>
   );
 };

@@ -30,6 +30,7 @@ public class UserAuthEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
     @ManyToMany

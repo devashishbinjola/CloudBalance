@@ -17,11 +17,11 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true,nullable = false)
+    @Column(name = "account_no",unique = true,nullable = false)
     private Long accountNo;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(name = "arn_no",nullable = false)
     private String arnNo;
 
     @ManyToMany(mappedBy = "accounts")

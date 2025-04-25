@@ -1,6 +1,10 @@
 import React from "react";
 
-const DataTable = ({ service, data }) => {
+const DataTable = ({ service, data, loading }) => {
+  if (loading) {
+    return <p>Loading {service.toUpperCase()} data...</p>;
+  }
+
   if (!data || data.length === 0) {
     return <p>No data available for {service.toUpperCase()}</p>;
   }

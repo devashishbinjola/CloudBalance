@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import OnboardingPageone from "./OnboardingPageone";
-import OnboardingPagetwo from "./OnboardingPagetwo";
-import OnboardingPagethree from "./OnboardingPagethree";
-import "../css/Onboarding.css";
+import OnboardingPageone from "./OnbordingPageOne/OnboardingPageone";
+import OnboardingPagetwo from "./OnboardingPageTwo/OnboardingPagetwo";
+import OnboardingPagethree from "./OnboardingPageThree/OnboardingPagethree";
+import "./Onboarding.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,25 +16,52 @@ const Onboarding = () => {
     name: "",
   });
   const token = useSelector((state) => state.auth.token);
-  
+
+  const isFormValid = () => {
+    const { accountNo, arnNo, name } = formData;
+    const accountNoValid = /^\d{12}$/.test(accountNo.trim());
+    const arnNoValid = arnNo.trim() !== "";
+    const nameValid = name.trim() !== "";
+
+    if (!accountNoValid || !arnNoValid || !nameValid) {
+      toast.error("Please fill out all fields correctly.");
+      return false;
+    }
+
+    return true;
+  };
+
+  const nextStep = () => {
+    if (step === 1 && !isFormValid()) return;
+    setStep((prev) => Math.min(prev + 1, 3));
+  };
+
+  const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
+
+  const cancel = () => {
+    setStep(1);
+    setFormData({ accountNo: "", arnNo: "", name: "" });
+    console.log("Onboarding cancelled");
+  };
 
   const handleSubmit = async () => {
     const { accountNo, arnNo, name } = formData;
-  
-    
+
     if (!accountNo || !arnNo.trim() || !name.trim()) {
-     toast.error("All fields are required. Please fill out all fields.");
+      toast.error("All fields are required. Please fill out all fields.");
       return;
     }
-  
+
     try {
       const payload = {
         accountNo: parseInt(accountNo, 10),
         arnNo: arnNo.trim(),
         name: name.trim(),
       };
-  
-      const response = await axios.post("http://localhost:8080/api/accounts", payload,
+
+      const response = await axios.post(
+        "http://localhost:8080/api/accounts",
+        payload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,15 +76,6 @@ const Onboarding = () => {
       console.error("Failed to submit:", error);
       toast.error("Failed to submit. Please try again.");
     }
-  };
-  
-  
-
-  const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
-  const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
-  const cancel = () => {
-    setStep(1);
-    console.log("Onboarding cancelled");
   };
 
   return (
@@ -84,7 +102,7 @@ const Onboarding = () => {
               {step === 2 && "Next-Create CUR"}
             </button>
           )}
-          {step == 3 && (
+          {step === 3 && (
             <button className="submit-button" onClick={handleSubmit}>
               Submit
             </button>

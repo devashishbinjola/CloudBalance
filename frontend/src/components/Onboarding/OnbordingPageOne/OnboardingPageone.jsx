@@ -1,8 +1,9 @@
 import React from "react";
-import CodeBox from "./CodeBox";
-import CodeBoxSmall from "./CodeBoxSmall";
-import roleimg from "../../public/cktunerrole.png";
-import "../css/OnboardingAll.css";
+import CodeBox from "../../CodeBoxes/CodeBox/CodeBox";
+import CodeBoxSmall from "../../CodeBoxes/CodeBoxSmall/CodeBoxSmall";
+// import roleimg from "../assets/cktunerrole.png";
+import roleimg from "../../../assets/cktunerrole.png";
+import "../OnboardingAll.css";
 
 const OnboardingPageone = ({ formData, setFormData }) => {
   const customTrustPolicy = {
@@ -32,6 +33,9 @@ const OnboardingPageone = ({ formData, setFormData }) => {
   };
 
   const createRole = "CK-Tuner-Role-dev2";
+
+  const isInvalidAccount = formData.accountNo && !/^\d{12}$/.test(formData.accountNo);
+  const isEmpty = (value) => value.trim() === "";
 
   return (
     <div>
@@ -87,6 +91,7 @@ const OnboardingPageone = ({ formData, setFormData }) => {
               onChange={(e) =>
                 setFormData({ ...formData, accountNo: e.target.value })
               }
+              className={isInvalidAccount ? "invalid" : ""}
               required
             />
           </div>
@@ -101,6 +106,7 @@ const OnboardingPageone = ({ formData, setFormData }) => {
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
+              className={isEmpty(formData.name) && formData.name !== "" ? "invalid" : ""}
               required
             />
           </div>
@@ -115,6 +121,7 @@ const OnboardingPageone = ({ formData, setFormData }) => {
               onChange={(e) =>
                 setFormData({ ...formData, arnNo: e.target.value })
               }
+              className={isEmpty(formData.arnNo) && formData.arnNo !== "" ? "invalid" : ""}
               required
             />
           </div>

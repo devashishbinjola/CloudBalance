@@ -1,12 +1,14 @@
 import React from "react";
-import CodeBox from "./CodeBox";
+import CodeBox from "../../CodeBoxes/CodeBox/CodeBox";
 import { Link } from "react-router-dom";
-import CodeBoxSmall from "./CodeBoxSmall";
-import cktunerrole from "../../public/cktunerrole.png"
-import permissionpolicies from "../../public/permissionpolicies.png"
-import permissionpoliciessecond from "../../public/permissionpoliciessecond.png"
-import otherpermissionpolicies from "../../public/otherpermissionpolicies.png"
-import "../css/OnboardingAll.css";
+import CodeBoxSmall from "../../CodeBoxes/CodeBoxSmall/CodeBoxSmall";
+// import cktunerrole from "../../public/cktunerrole.png"
+import cktunerrole from "../../../assets/cktunerrole.png"
+// import cktunerrole from "../../../public/cktunerrole.png";
+import permissionpolicies from "../../../assets/permissionpolicies.png"
+import permissionpoliciessecond from "../../../assets/permissionpoliciessecond.png"
+import otherpermissionpolicies from "../../../assets/otherpermissionpolicies.png"
+import "../OnboardingAll.css";
 
 const OnboardingPagetwo = () => {
   const secondData = {

@@ -19,7 +19,7 @@ export const loginSuccess = (data) => {
   
   export const logout = () => {
     localStorage.clear();
-  
+
     return {
       type: "LOGOUT",
     };

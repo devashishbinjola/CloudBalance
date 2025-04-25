@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import AddUserForm from "./AddUserForm";
-import EditUserForm from "./EditUserForm"; 
+import AddUserForm from "../../AddUserForm/AddUserForm";
+import EditUserForm from "../../EditUserForm/EditUserForm"; 
 import axios from "axios";
-import "../css/UserManagement.css";
+import "./UserManagement.css";
 import { FaEdit } from "react-icons/fa";
 
 const USERS_PER_PAGE = 15;

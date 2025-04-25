@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "../css/EditUserForm.css";
+import "./EditUserForm.css";
 import axios from "axios";
-import CustomerAccountSelector from "./CustomerAccountSelector";
+import CustomerAccountSelector from "../CustomerAccountSelector/CustomerAccountSelector";
 
 const EditUserForm = ({ userData, onClose }) => {
   const [formData, setFormData] = useState({ ...userData });

@@ -1,9 +1,10 @@
 import React from "react";
-import "../css/Navbar.css";
+import "./Navbar.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../src/redux/actions/authActions";
-import logo from "../../public/logocloudbalance.png";
+import { logout } from "../../redux/actions/authActions";
+// import logo from "../../../public/logocloudbalance.png";
+import logo from "../../assets/logocloudbalance.png"
 import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {

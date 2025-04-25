@@ -1,12 +1,12 @@
 import React from "react";
-import "../css/OnboardingAll.css";
+import "../OnboardingAll.css";
 import { Link } from "react-router-dom";
-import CodeBoxSmall from "./CodeBoxSmall";
+import CodeBoxSmall from "../../CodeBoxes/CodeBoxSmall/CodeBoxSmall";
 import { FaCheckSquare } from "react-icons/fa";
 import { FaDotCircle } from "react-icons/fa";
-import specifyreportdetailsimage from "../../public/specifyreportdetailsimage.png";
-import configures3bucket from "../../public/configures3bucket.png";
-import reportdelhiveryoptionimage from "../../public/reportdelhiveryoptionimage.png";
+import specifyreportdetailsimage from "../../../assets/specifyreportdetailsimage.png";
+import configures3bucket from "../../../assets/configures3bucket.png";
+import reportdelhiveryoptionimage from "../../../assets/reportdelhiveryoptionimage.png";
 
 const OnboardingPagethree = () => {
   const thirdPageDataone = "ck-tuner-275595855473-hourly-cur";

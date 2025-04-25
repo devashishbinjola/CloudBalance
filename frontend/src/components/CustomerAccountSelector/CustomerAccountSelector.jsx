@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import "../css/CustomerAccountSelector.css";
+import "./CustomerAccountSelector.css";
 
 const CustomerAccountSelector = ({ selectedAccountIds, setSelectedAccountIds }) => {
   const [accountList, setAccountList] = useState([]);

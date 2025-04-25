@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FiCopy, FiCheck } from 'react-icons/fi';
-import '../css/CodeBoxSmall.css';
+import './CodeBoxSmall.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CodeBoxSmall = ({ code }) => {
   const [copied, setCopied] = useState(false);
@@ -8,6 +10,7 @@ const CodeBoxSmall = ({ code }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
     setCopied(true);
+    toast.success("Code Copied!");
     setTimeout(() => setCopied(false), 2000);
   };
 

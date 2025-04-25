@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginUser } from "../api/auth";
-import "../css/Login.css";
-import logo from "../../public/logocloudbalance.png"
+// import { loginUser } from "../../../api/auth";
+import {loginUser} from "../../api/auth";
+import "./Login.css";
+// import logo from "../../public/logocloudbalance.png"
+import logo from "../../assets/logocloudbalance.png"
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../redux/actions/authActions";
+import { loginSuccess } from "../../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {

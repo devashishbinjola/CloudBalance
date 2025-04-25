@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import CustomerAccountSelector from "./CustomerAccountSelector"; 
-import "../css/AddUserForm.css";
+import CustomerAccountSelector from "../CustomerAccountSelector/CustomerAccountSelector"; 
+import "./AddUserForm.css";
 
 const AddUserForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
