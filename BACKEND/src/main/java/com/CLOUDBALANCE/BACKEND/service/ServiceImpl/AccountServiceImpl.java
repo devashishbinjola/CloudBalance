@@ -31,16 +31,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String createAccount(AccountDto dto) {
+        validateAccounts(dto);
+
+        Account newAcc= accountMapper.toEntity(dto);
+        accountRepository.save(newAcc);
+        return "Account Successfully Created...";
+    }
+
+    private void validateAccounts(AccountDto dto) {
         if(accountValidationService.isAccountExists(dto.getAccountNo())){
             throw new AccountExistsException();
         }
         if(accountValidationService.isArnExists(dto.getArnNo())){
             throw new ArnAlreadyExistException();
         }
-
-        Account newAcc=
-        accountMapper.toEntity(dto);
-        accountRepository.save(newAcc);
-        return "Account Successfully Created...";
     }
 }

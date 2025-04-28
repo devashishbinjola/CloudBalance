@@ -49,7 +49,7 @@ const CustomerAccountSelector = ({ selectedAccountIds, setSelectedAccountIds }) 
           ) : (
             unselectedAccounts.map((acc) => (
               <div className="account-item" key={acc.id}>
-                <span>{acc.accountNo} - {acc.name}</span>
+                <span>{acc.name}-{acc.accountNo}</span>
                 <button onClick={() => handleAdd(acc.id)}>Add</button>
               </div>
             ))

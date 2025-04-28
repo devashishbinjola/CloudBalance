@@ -36,7 +36,7 @@ public class AwsController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('READ_ONLY')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('READ_ONLY') or hasRole('CUSTOMER')")
     @GetMapping("asg")
     public List<ASGMetaDataDto> getAsgInstances(@RequestParam(name="id") Long accountId) {
         return asgService.getAsgInstancesViaAssumedRole(accountId);

@@ -61,11 +61,7 @@ public class EC2ServiceImpl implements EC2Service {
                 for (Instance instance : reservation.instances()) {
                     EC2MetaDataDto dto = new EC2MetaDataDto();
                     dto.setResourceId(instance.instanceId());
-                    dto.setResourceName(instance.tags().stream()
-                            .filter(tag -> "Name".equals(tag.key()))
-                            .findFirst()
-                            .map(Tag::value)
-                            .orElse("Unnamed"));
+                    dto.setResourceName(getResourceName(instance));
                     dto.setState(instance.state().nameAsString());
                     dto.setRegion(region);
 
@@ -75,8 +71,17 @@ public class EC2ServiceImpl implements EC2Service {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return new ArrayList<>();
         }
 
         return ec2MetaDataList;
+    }
+
+    private static String getResourceName(Instance instance) {
+        return instance.tags().stream()
+                .filter(tag -> "Name".equals(tag.key()))
+                .findFirst()
+                .map(Tag::value)
+                .orElse("Unnamed");
     }
 }

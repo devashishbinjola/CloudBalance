@@ -33,7 +33,7 @@ const AmazonServiceDashboard = () => {
   const fetchData = async (serviceType) => {
     if (!selectedAccount) return;
     setService(serviceType);
-    setLoading(true); // Start loading
+    setLoading(true);
   
     const token = localStorage.getItem("token");
   
@@ -51,7 +51,7 @@ const AmazonServiceDashboard = () => {
       console.error(`Error fetching ${serviceType} data:`, err);
       setData([]);
     } finally {
-      setLoading(false); // End loading
+      setLoading(false); 
     }
   };
   

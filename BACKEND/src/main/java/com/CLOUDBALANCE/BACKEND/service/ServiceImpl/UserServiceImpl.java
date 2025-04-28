@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public List<UserSummaryDto> getAllUsers() {
         return userAuthRepository.findAll().stream()
                 .map(userMapper::toSummaryDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

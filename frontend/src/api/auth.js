@@ -1,8 +1,5 @@
-import axios from "axios";
+import API from "../services/axiosInstence.js"
 
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-});
-
-export const loginUser = (username, password) =>
-  API.post("/auth/login", { username, password });
+export const loginUser = (username, password) => {
+  return API.post("/auth/login", { username, password });
+};

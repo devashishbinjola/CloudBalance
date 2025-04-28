@@ -19,7 +19,7 @@ public class UserAuthEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String first_name;
+    private String first_name; //firstName
     private String last_name;
     @Column(unique = true)
     private String email;

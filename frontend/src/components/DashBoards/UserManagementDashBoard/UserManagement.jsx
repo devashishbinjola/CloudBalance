@@ -3,6 +3,7 @@ import AddUserForm from "../../AddUserForm/AddUserForm";
 import EditUserForm from "../../EditUserForm/EditUserForm"; 
 import axios from "axios";
 import "./UserManagement.css";
+import { getAllUsers } from "../../../api/user.js";
 import { FaEdit } from "react-icons/fa";
 
 const USERS_PER_PAGE = 15;
@@ -22,11 +23,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/admin/users", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await getAllUsers(); // 👈 yaha sirf call
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
