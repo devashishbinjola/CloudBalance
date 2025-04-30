@@ -4,6 +4,8 @@ import org.springframework.http.*;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -44,5 +46,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> habdleArnExists(ArnAlreadyExistException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
-
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<?> handleUnauthorizedException(UnauthorizedException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", ex.getMessage()));
+    }
 }

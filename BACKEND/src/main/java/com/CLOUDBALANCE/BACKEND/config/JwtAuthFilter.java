@@ -1,5 +1,6 @@
 package com.CLOUDBALANCE.BACKEND.config;
 
+import com.CLOUDBALANCE.BACKEND.exception.UnauthorizedException;
 import com.CLOUDBALANCE.BACKEND.repository.BlacklistedTokenRepository;
 import com.CLOUDBALANCE.BACKEND.service.CustomUserDetailsService;
 import jakarta.servlet.*;
@@ -37,7 +38,6 @@ public class JwtAuthFilter extends GenericFilter {
         System.out.println("Incoming request path: " + path);
 
         if (path.equals("/api/auth/login")) {
-
             chain.doFilter(request, response);
             return;
         }
@@ -46,38 +46,45 @@ public class JwtAuthFilter extends GenericFilter {
         String username = null;
         String token = null;
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
-            username = jwtUtil.extractUsername(token);
-        }
-        if (token != null && blacklistedTokenRepository.existsByToken(token)) {
-            ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token is blacklisted.");
-            return;
-        }
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);
 
+                if (blacklistedTokenRepository.existsByToken(token)) {
+                    throw new UnauthorizedException("Token is blacklisted.");
+                }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            if (jwtUtil.validateToken(token)) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-//                UsernamePasswordAuthenticationToken auth =
-//                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpReq));
-//                SecurityContextHolder.getContext().setAuthentication(auth);
-                String role = jwtUtil.extractRole(token);
-                List<SimpleGrantedAuthority> authorities = List.of(
-                        new SimpleGrantedAuthority("ROLE_" + role)
-                );
+                username = jwtUtil.extractUsername(token);
 
-                UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpReq));
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    if (jwtUtil.validateToken(token)) {
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                        String role = jwtUtil.extractRole(token);
+                        List<SimpleGrantedAuthority> authorities = List.of(
+                                new SimpleGrantedAuthority("ROLE_" + role)
+                        );
+
+                        UsernamePasswordAuthenticationToken auth =
+                                new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpReq));
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                    } else {
+                        throw new UnauthorizedException("Invalid JWT token.");
+                    }
+                }
+            } else {
+                throw new UnauthorizedException("Missing or invalid Authorization header.");
             }
-        }
 
-        chain.doFilter(request, response);
+            chain.doFilter(request, response);
+
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            throw new UnauthorizedException("JWT token has expired.");
+        } catch (io.jsonwebtoken.JwtException e) {
+            throw new UnauthorizedException("Invalid JWT token.");
+        }
     }
+
 
 
 

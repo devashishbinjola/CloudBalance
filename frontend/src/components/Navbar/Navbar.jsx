@@ -1,11 +1,12 @@
 import React from "react";
-import "./Navbar.css";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/actions/authActions";
-// import logo from "../../../public/logocloudbalance.png";
 import logo from "../../assets/logocloudbalance.png"
 import { FaUserCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./Navbar.css";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -13,10 +14,6 @@ const Navbar = () => {
   const firstName = localStorage.getItem("firstName");
   const lastName = localStorage.getItem("lastName");
 
-  // const handleLogout = () =>{
-  //   dispatch(logout());
-  //   navigate("/")
-  // }
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -32,6 +29,7 @@ const Navbar = () => {
       localStorage.clear();
       dispatch(logout());
       navigate("/");
+      toast.success("Logout successful");
     }
   };
   return (

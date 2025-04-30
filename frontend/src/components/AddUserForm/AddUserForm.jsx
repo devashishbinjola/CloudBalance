@@ -59,11 +59,7 @@ const AddUserForm = ({ onClose }) => {
         
       );
       
-    // }
-    // catch(err){
-    //   // console.log(err);
-    //   throw err;
-    // }
+    
 
       toast.success("User added successfully!");
       setFormData({ firstName: "", lastName: "", email: "", password: "", role: "" });

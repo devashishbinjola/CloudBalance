@@ -34,9 +34,9 @@ const AmazonServiceDashboard = () => {
     if (!selectedAccount) return;
     setService(serviceType);
     setLoading(true);
-  
+
     const token = localStorage.getItem("token");
-  
+
     try {
       const response = await axios.get(`http://localhost:8080/api/aws/${serviceType}`, {
         headers: {
@@ -51,10 +51,9 @@ const AmazonServiceDashboard = () => {
       console.error(`Error fetching ${serviceType} data:`, err);
       setData([]);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
-  
 
   return (
     <div>
@@ -66,10 +65,13 @@ const AmazonServiceDashboard = () => {
           selectedId={selectedAccount?.id}
           onSelect={(id) => setSelectedAccount(accounts.find(acc => acc.id === id))}
         />
-      
       </div>
 
-      <ServiceButtons onFetch={fetchData} />
+      {/* Passing dynamic service buttons */}
+      <ServiceButtons
+        services={["ec2", "asg", "rds"]}
+        onFetch={fetchData}
+      />
       <DataTable service={service} data={data} loading={loading} />
     </div>
   );
