@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import OnboardingPageone from "./OnbordingPageOne/OnboardingPageone";
 import OnboardingPagetwo from "./OnboardingPageTwo/OnboardingPagetwo";
 import OnboardingPagethree from "./OnboardingPageThree/OnboardingPagethree";
+import OnboardingSuccess from "./OnboardingSuccess/OnboardingSuccess";
 import "./Onboarding.css";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -10,6 +11,7 @@ import { useSelector } from "react-redux";
 
 const Onboarding = () => {
   const [step, setStep] = useState(1);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     accountNo: "",
     arnNo: "",
@@ -40,6 +42,7 @@ const Onboarding = () => {
 
   const cancel = () => {
     setStep(1);
+    setShowSuccess(false);
     setFormData({ accountNo: "", arnNo: "", name: "" });
     console.log("Onboarding cancelled");
   };
@@ -70,45 +73,56 @@ const Onboarding = () => {
       );
       console.log("Response:", response.data);
 
-      setStep(1);
-      setFormData({ accountNo: "", arnNo: "", name: "" });
+      setShowSuccess(true); // Show success page
     } catch (error) {
       console.error("Failed to submit:", error);
       toast.error("Failed to submit. Please try again.");
     }
   };
 
+  const resetOnboarding = () => {
+    setStep(1);
+    setShowSuccess(false);
+    setFormData({ accountNo: "", arnNo: "", name: "" });
+  };
+
   return (
     <div className="onboarding-container">
-      {step === 1 && (
-        <OnboardingPageone formData={formData} setFormData={setFormData} />
+      {showSuccess ? (
+        <OnboardingSuccess onReset={resetOnboarding} />
+      ) : (
+        <>
+          {step === 1 && (
+            <OnboardingPageone formData={formData} setFormData={setFormData} />
+          )}
+          {step === 2 && <OnboardingPagetwo />}
+          {step === 3 && <OnboardingPagethree />}
+          <div className="onboarding-controls">
+            <button onClick={cancel} className="cancel-button">
+              Cancel
+            </button>
+            <div>
+              {step > 1 && (
+                <button onClick={prevStep} className="back-button">
+                  {step === 2 && "Back-Create An IAM Role"}
+                  {step === 3 && "Back-Add Customer Managed Policies"}
+                </button>
+              )}
+              {step < 3 && (
+                <button onClick={nextStep} className="next-button">
+                  {step === 1 && "Next-Add Customer Managed Policies"}
+                  {step === 2 && "Next-Create CUR"}
+                </button>
+              )}
+              {step === 3 && (
+                <button className="submit-button" onClick={handleSubmit}>
+                  Submit
+                </button>
+              )}
+            </div>
+          </div>
+        </>
       )}
-      {step === 2 && <OnboardingPagetwo />}
-      {step === 3 && <OnboardingPagethree />}
-      <div className="onboarding-controls">
-        <button onClick={cancel} className="cancel-button">
-          Cancel
-        </button>
-        <div>
-          {step > 1 && (
-            <button onClick={prevStep} className="back-button">
-              {step === 2 && "Back-Create An IAM Role"}{" "}
-              {step === 3 && "Back-Add Customer Managed Policies"}
-            </button>
-          )}
-          {step < 3 && (
-            <button onClick={nextStep} className="next-button">
-              {step === 1 && "Next-Add Customer Managed Policies"}{" "}
-              {step === 2 && "Next-Create CUR"}
-            </button>
-          )}
-          {step === 3 && (
-            <button className="submit-button" onClick={handleSubmit}>
-              Submit
-            </button>
-          )}
-        </div>
-      </div>
     </div>
   );
 };

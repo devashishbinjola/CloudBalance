@@ -3,46 +3,57 @@ package com.CLOUDBALANCE.BACKEND.config;
 import com.CLOUDBALANCE.BACKEND.exception.UnauthorizedException;
 import com.CLOUDBALANCE.BACKEND.repository.BlacklistedTokenRepository;
 import com.CLOUDBALANCE.BACKEND.service.CustomUserDetailsService;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
-public class JwtAuthFilter extends GenericFilter {
+public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
     @Autowired
     private BlacklistedTokenRepository blacklistedTokenRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
 
-        HttpServletRequest httpReq = (HttpServletRequest) request;
-        String path = httpReq.getServletPath();
+        String path = request.getServletPath();
 
         System.out.println("Incoming request path: " + path);
 
-        if (path.equals("/api/auth/login")) {
+        // Skip filter for login and register paths
+        if (path.equals("/api/auth/login") || path.startsWith("/api/auth/register")) {
             chain.doFilter(request, response);
             return;
         }
 
-        String authHeader = httpReq.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
         String username = null;
         String token = null;
 
@@ -51,10 +62,19 @@ public class JwtAuthFilter extends GenericFilter {
                 token = authHeader.substring(7);
 
                 if (blacklistedTokenRepository.existsByToken(token)) {
-                    throw new UnauthorizedException("Token is blacklisted.");
+                    handleAuthError(response, "Token is blacklisted.");
+                    return;
                 }
 
-                username = jwtUtil.extractUsername(token);
+                try {
+                    username = jwtUtil.extractUsername(token);
+                } catch (io.jsonwebtoken.ExpiredJwtException e) {
+                    handleAuthError(response, "JWT token has expired.");
+                    return;
+                } catch (io.jsonwebtoken.JwtException e) {
+                    handleAuthError(response, "Invalid JWT token: " + e.getMessage());
+                    return;
+                }
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     if (jwtUtil.validateToken(token)) {
@@ -66,27 +86,34 @@ public class JwtAuthFilter extends GenericFilter {
 
                         UsernamePasswordAuthenticationToken auth =
                                 new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-                        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpReq));
+                        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(auth);
+
                     } else {
-                        throw new UnauthorizedException("Invalid JWT token.");
+                        handleAuthError(response, "Invalid JWT token.");
+                        return;
                     }
                 }
             } else {
-                throw new UnauthorizedException("Missing or invalid Authorization header.");
+                handleAuthError(response, "Missing or invalid Authorization header.");
+                return;
             }
 
             chain.doFilter(request, response);
 
-        } catch (io.jsonwebtoken.ExpiredJwtException e) {
-            throw new UnauthorizedException("JWT token has expired.");
-        } catch (io.jsonwebtoken.JwtException e) {
-            throw new UnauthorizedException("Invalid JWT token.");
+        } catch (Exception e) {
+            // Catch any other exceptions and return 401
+            handleAuthError(response, "Authentication error: " + e.getMessage());
         }
     }
 
+    private void handleAuthError(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
+        Map<String, String> error = new HashMap<>();
+        error.put("error", message);
 
-
+        response.getWriter().write(objectMapper.writeValueAsString(error));
+    }
 }
-

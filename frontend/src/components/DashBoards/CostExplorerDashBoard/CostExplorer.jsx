@@ -5,6 +5,7 @@ import Filter from "./Filter";
 import ChartDisplay from "./ChartDisplay";
 import DateRangePicker from "./DateRangePicker";
 import CostTable from "./CostTable";
+import "../CostExplorerDashBoard/css/CostExplorer.css";
 
 const CostExplorer = () => {
   const [accounts, setAccounts] = useState([]);
@@ -24,7 +25,6 @@ const CostExplorer = () => {
   const [startDate, setStartDate] = useState("2025-04-01");
   const [endDate, setEndDate] = useState("2025-04-30");
 
-  // Fetch accounts
   useEffect(() => {
     const token = localStorage.getItem("token");
     setLoading((prev) => ({ ...prev, accounts: true }));
@@ -36,7 +36,7 @@ const CostExplorer = () => {
       .then((response) => {
         setAccounts(response.data);
         if (response.data.length > 0) {
-          setSelectedAccountId(response.data[0].accountNo);
+          setSelectedAccountId(response.data[11].accountNo);
         }
         setLoading((prev) => ({ ...prev, accounts: false }));
       })
@@ -46,7 +46,6 @@ const CostExplorer = () => {
       });
   }, []);
 
-  // Fetch columns when account is selected
   useEffect(() => {
     if (!selectedAccountId) return;
 
@@ -67,7 +66,6 @@ const CostExplorer = () => {
       });
   }, [selectedAccountId]);
 
-  // Fetch chart data
   useEffect(() => {
     if (!selectedAccountId || !activeGroupBy) return;
 
@@ -97,14 +95,13 @@ const CostExplorer = () => {
   }, [selectedAccountId, activeGroupBy, startDate, endDate, selectedFilterValues]);
 
   return (
-    <div style={containerStyle}>
-      {/* Account Selector */}
-      <div style={accountSelectorStyle}>
-        <label style={labelStyle}>Select Account:</label>
+    <div className="cost-explorer-container">
+      <div className="account-selector">
+        <label className="account-label">Select Account:</label>
         <select
           value={selectedAccountId || ""}
           onChange={(e) => setSelectedAccountId(e.target.value)}
-          style={selectStyle}
+          className="account-select"
           disabled={loading.accounts}
         >
           {loading.accounts ? (
@@ -128,9 +125,9 @@ const CostExplorer = () => {
       />
 
       {/* Main Layout */}
-      <div style={mainContentStyle}>
+      <div className="main-content">
         {/* Main Content Area */}
-        <div style={contentAreaStyle}>
+        <div className="content-area">
           <GroupBy
             columns={allColumns}
             activeGroupBy={activeGroupBy}
@@ -171,91 +168,5 @@ const CostExplorer = () => {
     </div>
   );
 };
-
-// Styles
-const containerStyle = {
-  padding: "24px",
-  fontFamily: "'Inter', sans-serif",
-  maxWidth: "1600px",
-  margin: "0 auto",
-  backgroundColor: "#f9fafb",
-  minHeight: "100vh",
-  overflowY: "auto", // Enable vertical scrolling
-  height: "100vh", // Ensure container takes full viewport height
-  boxSizing: "border-box",
-};
-
-const accountSelectorStyle = {
-  marginBottom: "24px",
-  maxWidth: "400px",
-};
-
-const labelStyle = {
-  display: "block",
-  fontSize: "14px",
-  fontWeight: "600",
-  color: "#1f2937",
-  marginBottom: "8px",
-};
-
-const selectStyle = {
-  width: "100%",
-  padding: "10px",
-  borderRadius: "6px",
-  border: "1px solid #d1d5db",
-  backgroundColor: "#fff",
-  fontSize: "14px",
-  color: "#1f2937",
-  outline: "none",
-  transition: "border-color 0.2s",
-};
-
-const mainContentStyle = {
-  display: "flex",
-  gap: "24px",
-  flexDirection: "row",
-  flexWrap: "wrap", // Allow wrapping for responsiveness
-  alignItems: "flex-start", // Align items to top
-};
-
-const contentAreaStyle = {
-  flex: "1",
-  display: "flex",
-  flexDirection: "column",
-  gap: "24px",
-  minWidth: "0", // Prevent overflow in flex container
-};
-
-// Responsive Design
-const responsiveStyles = `
-  @media (max-width: 1024px) {
-    .mainContent {
-      flex-direction: column;
-    }
-    .sidebar {
-      flex: 1;
-      position: static;
-      max-height: none; /* Remove max-height to allow natural growth */
-      overflow-y: visible; /* Prevent sidebar from scrolling independently */
-    }
-    .contentArea {
-      width: 100%; /* Full width on smaller screens */
-    }
-  }
-
-  @media (max-width: 640px) {
-    .groupByContainer {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .groupByButton, .dropdownItem {
-      width: 100%;
-      text-align: left;
-    }
-    .container {
-      padding: 16px; /* Reduce padding on small screens */
-    }
-  }
-`;
 
 export default CostExplorer;

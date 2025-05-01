@@ -1,0 +1,108 @@
+.onboarding-page-three {
+    font-family: 'Inter', sans-serif;
+    color: #1f2937;
+  }
+  
+  .onboarding-page-three h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .onboarding-page-three > p {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .main {
+    margin-top: 20px;
+    line-height: 1.7;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  
+  .main p {
+    position: relative;
+    padding-left: 40px;
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .step-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    background-color: #889abe;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
+  }
+  
+  .config-note {
+    display: block;
+    font-size: 12px;
+    margin-left: 30px;
+    margin-bottom: 8px;
+  }
+  
+  .check-icon-row {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    margin-bottom: 8px;
+  }
+  
+  .check-icon {
+    color: grey;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+  
+  .dot-icon {
+    color: lightgray;
+    margin-right: 8px;
+    font-size: 12px;
+  }
+  
+  .check-text {
+    font-size: 15px;
+  }
+  
+  .image-section {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    margin-left: 30px;
+  }
+  
+  .image-section span {
+    margin-bottom: 8px;
+  }
+  
+  .image-section img {
+    max-widthheti: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .config-label {
+    font-size: 12px;
+    margin-left: 30px;
+    margin-bottom: 8px;
+  }
+  
+  .main img {
+    margin-left: 30px;
+    margin-bottom: 16px;
+  }

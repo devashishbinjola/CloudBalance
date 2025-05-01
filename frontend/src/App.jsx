@@ -21,7 +21,6 @@ function App() {
           
           <Route path="/dashboard" element={<Dashboard />}>
             
-            {/* PrivateRoute for CostExplorer and AmazonServiceDashboard */}
             <Route path="cost-explorer" element={
               <PrivateRoute>
                 <CostExplorer />
@@ -34,7 +33,6 @@ function App() {
               </PrivateRoute>
             } />
 
-            {/* ProtectedRoute for UserManagement, accessible by Admin and ReadOnly */}
             <Route path="user-management" element={
               <ProtectedRoute allowedRoles={['ADMIN', 'READ_ONLY']}>
                 <UserManagement />

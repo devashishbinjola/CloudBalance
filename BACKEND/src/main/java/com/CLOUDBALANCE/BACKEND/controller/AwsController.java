@@ -28,7 +28,6 @@ public class AwsController {
         return ec2Service.getEc2InstancesViaAssumedRole(accountId);
     }
 
-
     @PreAuthorize("hasRole('ADMIN') or hasRole('READ_ONLY') or hasRole('CUSTOMER')")
     @GetMapping("rds")
     public List<RDSMetaDataDto> getRdsInstances(@RequestParam(name = "id")  Long accountId){

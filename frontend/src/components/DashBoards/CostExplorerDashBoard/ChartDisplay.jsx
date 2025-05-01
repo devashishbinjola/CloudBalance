@@ -4,6 +4,7 @@ import Charts from "fusioncharts/fusioncharts.charts";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 import ReactFC from "react-fusioncharts";
 import { BarChart, LineChart } from "lucide-react";
+import "../CostExplorerDashBoard/css/ChartDisplay.css";
 
 // Resolve chart dependencies
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -174,25 +175,17 @@ const ChartDisplay = ({ data, loading, groupBy }) => {
   };
 
   return (
-    <div style={chartContainerStyle}>
-      <div style={chartToggleStyle}>
+    <div className="chart-container">
+      <div className="chart-toggle">
         <button
-          style={{
-            ...toggleButtonStyle,
-            backgroundColor: chartType === "column" ? "#2563eb" : "#e5e7eb",
-            color: chartType === "column" ? "#fff" : "#1f2937",
-          }}
+          className={`toggle-button ${chartType === "column" ? "active" : ""}`}
           onClick={() => setChartType("column")}
         >
           <BarChart size={20} />
           Bar Chart
         </button>
         <button
-          style={{
-            ...toggleButtonStyle,
-            backgroundColor: chartType === "line" ? "#2563eb" : "#e5e7eb",
-            color: chartType === "line" ? "#fff" : "#1f2937",
-          }}
+          className={`toggle-button ${chartType === "line" ? "active" : ""}`}
           onClick={() => setChartType("line")}
         >
           <LineChart size={20} />
@@ -200,58 +193,14 @@ const ChartDisplay = ({ data, loading, groupBy }) => {
         </button>
       </div>
       {loading ? (
-        <div style={loadingStyle}>Loading chart data...</div>
+        <div className="loading">Loading chart data...</div>
       ) : data.length > 0 ? (
         <ReactFC {...chartConfig} />
       ) : (
-        <div style={noDataStyle}>No data available for the selected criteria</div>
+        <div className="no-data">No data available for the selected criteria</div>
       )}
     </div>
   );
-};
-
-// Styles
-const chartContainerStyle = {
-  backgroundColor: "#fff",
-  padding: "24px",
-  borderRadius: "8px",
-  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-  minHeight: "600px", // Match chart height
-};
-
-const chartToggleStyle = {
-  display: "flex",
-  gap: "8px",
-  marginBottom: "16px",
-};
-
-const toggleButtonStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-  padding: "8px 16px",
-  borderRadius: "6px",
-  fontSize: "14px",
-  fontWeight: "500",
-  cursor: "pointer",
-  transition: "all 0.2s",
-  border: "none",
-  outline: "none",
-};
-
-const loadingStyle = {
-  padding: "12px",
-  textAlign: "center",
-  color: "#6b7280",
-  fontSize: "14px",
-};
-
-const noDataStyle = {
-  padding: "24px",
-  textAlign: "center",
-  color: "#9ca3af",
-  fontSize: "16px",
-  fontStyle: "italic",
 };
 
 export default ChartDisplay;

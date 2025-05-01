@@ -1,0 +1,49 @@
+.chart-container {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    min-height: 600px; /* Match chart height */
+  }
+  
+  .chart-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .toggle-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    outline: none;
+    background-color: #e5e7eb;
+    color: #1f2937;
+  }
+  
+  .toggle-button.active {
+    background-color: #2563eb;
+    color: #fff;
+  }
+  
+  .loading {
+    padding: 12px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+  }
+  
+  .no-data {
+    padding: 24px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 16px;
+    font-style: italic;
+  }

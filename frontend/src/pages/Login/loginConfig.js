@@ -29,8 +29,11 @@ export const loginConfig = {
       admin: {
         path: "/dashboard/user-management"
       },
+      read_only: {
+        path: "/dashboard/user-management"
+      },
       default: {
-        path: "/dashboard"
+        path: "/dashboard/cost-explorer"
       }
     },
   

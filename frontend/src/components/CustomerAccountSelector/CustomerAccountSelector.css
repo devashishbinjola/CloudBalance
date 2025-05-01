@@ -1,81 +1,110 @@
-.account-selector-wrapper {
-  padding-bottom: 1rem;
-  border-radius: 10px;
-  background-color: #fafafa;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.account-selector {
+  width: 100%; /* Ensure it fits within parent */
+  padding: 10px;
+  max-width: 616px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box; /* Prevent padding from causing overflow */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-.account-columns {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.account-list {
-  flex: 1;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 1rem;
-  transition: background-color 0.3s, border-color 0.3s;
-
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.account-list.selected {
-  background-color: #f0faff;
-  border-color: #40a9ff;
-  box-shadow: 0 0 6px rgba(24, 144, 255, 0.2);
-}
-
-.account-list h5 {
-  margin-bottom: 0.75rem;
+.account-selector h2 {
+  text-align: center;
+  margin-bottom: 15px;
   color: #333;
-  font-size: 1.05rem;
+  font-size: 18px;
+}
+
+.accounts-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.available-accounts,
+.selected-accounts {
+  flex: 1;
+  min-width: 200px; /* Ensure columns don't collapse too small */
+  max-width: 100%; /* Prevent columns from exceeding parent */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  max-height: 250px; /* Constrain height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  box-sizing: border-box;
+}
+
+.selected-accounts {
+  order: 1; /* Place Selected Accounts on the left */
+}
+
+.available-accounts {
+  order: 2; /* Place Available Accounts on the right */
+}
+
+.available-accounts h3,
+.selected-accounts h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #444;
+  font-size: 16px;
+  position: sticky; /* Keep headers visible */
+  top: 0;
+  background-color: #f9f9f9; /* Match background */
+  z-index: 1; /* Ensure headers stay above content */
+  padding: 5px 0;
 }
 
 .account-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #fcfcfc;
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 0.6rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: box-shadow 0.2s;
+  justify-content: space-between;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.account-item:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.account-item button {
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  background-color: #1890ff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
+.account-item label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  width: 100%;
+  overflow: hidden; /* Prevent text overflow */
+  text-overflow: ellipsis; /* Truncate long text */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
-.account-item button:hover {
-  background-color: #40a9ff;
+.account-item input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0; /* Prevent checkbox from shrinking */
 }
 
-h4, h5 {
-  color: #222;
-  font-weight: 600;
-}
-.account-list::-webkit-scrollbar {
-  width: 6px;
+p {
+  color: #666;
+  font-style: italic;
+  text-align: center;
 }
 
-.account-list::-webkit-scrollbar-thumb {
-  background-color: #c4c4c4;
-  border-radius: 10px;
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .accounts-container {
+    flex-direction: column; /* Stack vertically on small screens */
+  }
+
+  .selected-accounts,
+  .available-accounts {
+    order: initial; /* Reset order for vertical stacking */
+    min-width: 100%; /* Full width on small screens */
+  }
 }

@@ -1,6 +1,7 @@
 package com.CLOUDBALANCE.BACKEND.utils;
 
 import com.CLOUDBALANCE.BACKEND.dto.snowflake.CostSummary;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,14 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Repository
 public class SnowflakeRepository {
-//    private final JdbcTemplate snowflakeJdbcTemplate;
-//
-//    public SnowflakeRepository(@Qualifier("snowflakeJdbcTemplate") JdbcTemplate snowflakeJdbcTemplate) {
-//        this.snowflakeJdbcTemplate = snowflakeJdbcTemplate;
-//    }
-private final JdbcTemplate snowflakeJdbcTemplate;
+
+    private final JdbcTemplate snowflakeJdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final SqlQueryGenerator sqlQueryGenerator;
     private final Map<String, String> columnMapping;
@@ -28,24 +26,15 @@ private final JdbcTemplate snowflakeJdbcTemplate;
     public SnowflakeRepository(@Qualifier("snowflakeJdbcTemplate") JdbcTemplate snowflakeJdbcTemplate) {
         this.snowflakeJdbcTemplate = snowflakeJdbcTemplate;
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(snowflakeJdbcTemplate);
-
         this.columnMapping = initColumnMapping();
         this.sqlQueryGenerator = new SqlQueryGenerator(this.columnMapping);
     }
 
-
     public List<Map<String, Object>> getData() {
         String sql = "SELECT * FROM cost_explorer LIMIT 1000";
+        log.info("Executing getData query: {}", sql);
         return snowflakeJdbcTemplate.queryForList(sql);
     }
-
-
-    public List<Map<String, Object>> getCostExplorerData(String req) {
-        return snowflakeJdbcTemplate.queryForList(req);
-    }
-
-
-
 
     private Map<String, String> initColumnMapping() {
         Map<String, String> map = new HashMap<>();
@@ -82,7 +71,8 @@ private final JdbcTemplate snowflakeJdbcTemplate;
         String sql = sqlQueryGenerator.generateGroupedCostQuery(groupBy, filters);
         var params = sqlQueryGenerator.generateParameters(accountId, startDate, endDate, filters);
 
-//        log.debug("Executing SQL: {}", sql);
+        log.debug("Executing grouped cost query");
+        log.debug("With parameters ");
 
         return namedParameterJdbcTemplate.query(sql, params, (rs, rowNum) -> {
             CostSummary summary = new CostSummary();
@@ -95,7 +85,6 @@ private final JdbcTemplate snowflakeJdbcTemplate;
 
     public List<String> getDistinctValues(Long accountId, String columnName) {
         String sql = sqlQueryGenerator.generateDistinctValuesQuery(columnName);
-
         var params = new org.springframework.jdbc.core.namedparam.MapSqlParameterSource();
         params.addValue("accountId", accountId.toString());
 

@@ -1,4 +1,5 @@
 import React from "react";
+import ".//css/CostTable.css";
 
 // Helper function to extract month-year from period
 const parsePeriod = (period) => {
@@ -25,8 +26,8 @@ const CostTable = ({ data, loading, groupBy }) => {
   // Guard clause for invalid data
   if (!Array.isArray(data) || data.length === 0) {
     return (
-      <div style={tableContainerStyle}>
-        <div style={noDataStyle}>No data available for the selected criteria</div>
+      <div className="table-container">
+        <div className="no-data">No data available for the selected criteria</div>
       </div>
     );
   }
@@ -66,51 +67,44 @@ const CostTable = ({ data, loading, groupBy }) => {
   totalRow.total = grandTotal;
 
   return (
-    <div style={tableContainerStyle}>
-      <h3 style={tableTitleStyle}>{groupBy} Cost Breakdown (Month-wise)</h3>
+    <div className="table-container">
+      <h3 className="table-title">{groupBy} Cost Breakdown (Month-wise)</h3>
       {loading ? (
-        <div style={loadingStyle}>Loading table data...</div>
+        <div className="loading">Loading table data...</div>
       ) : (
-        <div style={tableWrapperStyle}>
-          <table style={tableStyle}>
+        <div className="table-wrapper">
+          <table className="cost-table">
             <thead>
               <tr>
-                <th style={{ ...headerStyle, position: "sticky", top: 0, zIndex: 1 }}>
-                  {groupBy}
-                </th>
+                <th className="table-header">{groupBy}</th>
                 {months.map((month) => (
-                  <th
-                    key={month}
-                    style={{ ...headerStyle, position: "sticky", top: 0, zIndex: 1 }}
-                  >
+                  <th key={month} className="table-header">
                     {month}
                   </th>
                 ))}
-                <th style={{ ...headerStyle, position: "sticky", top: 0, zIndex: 1 }}>
-                  Total
-                </th>
+                <th className="table-header">Total</th>
               </tr>
             </thead>
             <tbody>
               {tableData.map((row) => (
                 <tr key={row.service}>
-                  <td style={cellStyle}>{row.service}</td>
+                  <td className="table-cell">{row.service}</td>
                   {months.map((month) => (
-                    <td key={month} style={cellStyle}>
+                    <td key={month} className="table-cell">
                       {formatCost(row[month])}
                     </td>
                   ))}
-                  <td style={cellStyle}>{formatCost(row.total)}</td>
+                  <td className="table-cell">{formatCost(row.total)}</td>
                 </tr>
               ))}
               <tr>
-                <td style={totalRowStyle}>{totalRow.service}</td>
+                <td className="total-row">{totalRow.service}</td>
                 {months.map((month) => (
-                  <td key={month} style={totalRowStyle}>
+                  <td key={month} className="total-row">
                     {formatCost(totalRow[month])}
                   </td>
                 ))}
-                <td style={totalRowStyle}>{formatCost(totalRow.total)}</td>
+                <td className="total-row">{formatCost(totalRow.total)}</td>
               </tr>
             </tbody>
           </table>
@@ -118,79 +112,6 @@ const CostTable = ({ data, loading, groupBy }) => {
       )}
     </div>
   );
-};
-
-// Styles
-const tableContainerStyle = {
-  backgroundColor: "#fff",
-  padding: "24px",
-  borderRadius: "8px",
-  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-  marginTop: "24px",
-  maxHeight: "440px", // Limit table height to trigger vertical scrolling
-  overflow: "hidden", // Prevent content from spilling out
-  boxSizing: "border-box",
-  marginBottom: "250px", // Ensure space below table
-};
-
-const tableTitleStyle = {
-  fontSize: "18px",
-  fontWeight: "600",
-  color: "#1f2937",
-  marginBottom: "16px",
-};
-
-const tableWrapperStyle = {
-  overflowX: "auto", // Horizontal scrolling
-  overflowY: "auto", // Vertical scrolling
-  maxHeight: "340px", // Adjust for title and padding (400px - 24px padding - 36px title)
-};
-
-const tableStyle = {
-  width: "100%",
-  minWidth: "600px", // Ensure table is wide enough for horizontal scrolling
-  borderCollapse: "collapse",
-  fontFamily: "'Inter', sans-serif",
-  fontSize: "14px",
-  color: "#1f2937",
-};
-
-const headerStyle = {
-  padding: "12px",
-  backgroundColor: "#f9fafb",
-  borderBottom: "1px solid #e5e7eb",
-  textAlign: "left",
-  fontWeight: "600",
-  color: "#1f2937",
-};
-
-const cellStyle = {
-  padding: "12px",
-  borderBottom: "1px solid #e5e7eb",
-  textAlign: "left",
-};
-
-const totalRowStyle = {
-  padding: "12px",
-  borderBottom: "1px solid #e5e7eb",
-  textAlign: "left",
-  fontWeight: "600", // Bold text for total row
-  backgroundColor: "#f3f4f6", // Light gray background to distinguish
-};
-
-const loadingStyle = {
-  padding: "12px",
-  textAlign: "center",
-  color: "#6b7280",
-  fontSize: "14px",
-};
-
-const noDataStyle = {
-  padding: "24px",
-  textAlign: "center",
-  color: "#9ca3af",
-  fontSize: "16px",
-  fontStyle: "italic",
 };
 
 export default CostTable;

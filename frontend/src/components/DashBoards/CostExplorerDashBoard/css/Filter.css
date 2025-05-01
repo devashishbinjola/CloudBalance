@@ -1,0 +1,118 @@
+.filter-sidebar {
+    flex: 0 0 280px;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    position: sticky;
+    top: 24px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 12px;
+  }
+  
+  .filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .filter-item {
+    margin-bottom: 8px;
+  }
+  
+  .filter-button {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    outline: none;
+    background-color: #f3f4f6;
+    color: #1f2937;
+  }
+  
+  .filter-button.active {
+    background-color: #2563eb;
+    color: #fff;
+  }
+  
+  .filter-card {
+    margin-top: 8px;
+    padding: 12px;
+    background-color: #f9fafb;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .filter-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .filter-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 4px;
+  }
+  
+  .filter-values-container {
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+  }
+  
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  
+  .checkbox-label {
+    font-size: 13px;
+    color: #1f2937;
+  }
+  
+  .loading {
+    padding: 12px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+  }
+  
+  .no-values {
+    padding: 12px;
+    color: #9ca3af;
+    font-size: 13px;
+    font-style: italic;
+  }

@@ -25,46 +25,55 @@ const CustomerAccountSelector = ({ selectedAccountIds, setSelectedAccountIds }) 
     fetchAccounts();
   }, []);
 
-  const handleAdd = (accountId) => {
-    if (!selectedAccountIds.includes(accountId)) {
+  const handleToggle = (accountId) => {
+    if (selectedAccountIds.includes(accountId)) {
+      setSelectedAccountIds(selectedAccountIds.filter((id) => id !== accountId));
+    } else {
       setSelectedAccountIds([...selectedAccountIds, accountId]);
     }
-  };
-
-  const handleRemove = (accountId) => {
-    setSelectedAccountIds(selectedAccountIds.filter((id) => id !== accountId));
   };
 
   const selectedAccounts = accountList.filter((acc) => selectedAccountIds.includes(acc.id));
   const unselectedAccounts = accountList.filter((acc) => !selectedAccountIds.includes(acc.id));
 
   return (
-    <div className="account-selector-wrapper">
-      <h4>Select Accounts for Customer</h4>
-      <div className="account-columns">
-        <div className="account-list">
-          <h5>Available Accounts</h5>
+    <div className="account-selector" style={{ padding: "20px", backgroundColor: "#f9f9f9", borderRadius: "8px" , maxWidth: "580px"}}>
+      <h2>Select Accounts for Customer</h2>
+      <div className="accounts-container">
+        <div className="available-accounts">
+          <h3>Available Accounts</h3>
           {unselectedAccounts.length === 0 ? (
             <p>No accounts left to select.</p>
           ) : (
             unselectedAccounts.map((acc) => (
-              <div className="account-item" key={acc.id}>
-                <span>{acc.name}-{acc.accountNo}</span>
-                <button onClick={() => handleAdd(acc.id)}>Add</button>
+              <div key={acc.id} className="account-item">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={selectedAccountIds.includes(acc.id)}
+                    onChange={() => handleToggle(acc.id)}
+                  />
+                  {acc.name}-{acc.accountNo}
+                </label>
               </div>
             ))
           )}
         </div>
-
-        <div className="account-list selected">
-          <h5>Selected Accounts</h5>
+        <div className="selected-accounts">
+          <h3>Selected Accounts</h3>
           {selectedAccounts.length === 0 ? (
             <p>No accounts selected.</p>
           ) : (
             selectedAccounts.map((acc) => (
-              <div className="account-item" key={acc.id}>
-                <span>{acc.accountNo} - {acc.name}</span>
-                <button onClick={() => handleRemove(acc.id)}>Remove</button>
+              <div key={acc.id} className="account-item">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={selectedAccountIds.includes(acc.id)}
+                    onChange={() => handleToggle(acc.id)}
+                  />
+                  {acc.name}-{acc.accountNo}
+                </label>
               </div>
             ))
           )}

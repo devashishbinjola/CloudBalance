@@ -1,74 +1,112 @@
 .user-form {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .user-form h3 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .user-form form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .user-form input,
-  .user-form select {
-    padding: 0.7rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-  }
-  
-  .user-form input:focus,
-  .user-form select:focus {
-    border-color: #007bff;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .form-actions button {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .form-actions button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .form-actions button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
-  .form-actions button[type="button"] {
-    background-color: #ddd;
-    color: #333;
-  }
-  
-  .form-actions button[type="button"]:hover {
-    background-color: #bbb;
-  }
-  
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 80vh; /* Limit form height to 80% of viewport height */
+  overflow-y: auto; /* Enable vertical scrolling for the form */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+  display: flex;
+  flex-direction: column;
+}
+
+.user-form h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #444;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box; /* Prevent input overflow */
+}
+
+.form-group input[readOnly] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.form-group .account-selector {
+  max-height: 300px; /* Constrain the height of CustomerAccountSelector */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100%; /* Ensure it fits within parent */
+  box-sizing: border-box;
+}
+
+.warning-message {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.loading-accounts {
+  color: #666;
+  font-style: italic;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+  position: sticky;
+  bottom: 0;
+  background-color: #fff; /* Ensure background covers content behind */
+  padding: 15px 0;
+  box-sizing: border-box;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #545b62;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

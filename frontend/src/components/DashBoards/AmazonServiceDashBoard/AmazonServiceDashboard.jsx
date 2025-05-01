@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import AccountSelector from "../../AccountSelector/AccountSelector";
 import "./AmazonServiceDashboard.css";
 import ServiceButtons from "./ServiceButtons";
 import DataTable from "./DataTable";
+import { getAccounts, getEC2, getASG, getRDS } from "../../../api/aws.js";
 
 const AmazonServiceDashboard = () => {
   const [accounts, setAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
-  const [service, setService] = useState("");
+  const [service, setService] = useState("ec2");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios.get("http://localhost:8080/api/accounts", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    getAccounts()
       .then((res) => {
         setAccounts(res.data);
         if (res.data.length > 0) {
-          setSelectedAccount(res.data[0]);
+          setSelectedAccount(res.data[10] || res.data[0]);
         }
       })
       .catch((err) => {
@@ -30,22 +25,27 @@ const AmazonServiceDashboard = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (selectedAccount) {
+      fetchData("ec2");
+    }
+  }, [selectedAccount]);
+
+  const serviceFetchMap = {
+    ec2: getEC2,
+    asg: getASG,
+    rds: getRDS,
+  };
+
   const fetchData = async (serviceType) => {
     if (!selectedAccount) return;
     setService(serviceType);
     setLoading(true);
 
-    const token = localStorage.getItem("token");
-
     try {
-      const response = await axios.get(`http://localhost:8080/api/aws/${serviceType}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          id: selectedAccount.accountNo,
-        },
-      });
+      const fetchService = serviceFetchMap[serviceType];
+      if (!fetchService) throw new Error(`Unknown service: ${serviceType}`);
+      const response = await fetchService(selectedAccount.accountNo);
       setData(response.data);
     } catch (err) {
       console.error(`Error fetching ${serviceType} data:`, err);
@@ -63,15 +63,11 @@ const AmazonServiceDashboard = () => {
         <AccountSelector
           accounts={accounts}
           selectedId={selectedAccount?.id}
-          onSelect={(id) => setSelectedAccount(accounts.find(acc => acc.id === id))}
+          onSelect={(id) => setSelectedAccount(accounts.find((acc) => acc.id === id))}
         />
       </div>
 
-      {/* Passing dynamic service buttons */}
-      <ServiceButtons
-        services={["ec2", "asg", "rds"]}
-        onFetch={fetchData}
-      />
+      <ServiceButtons services={["ec2", "asg", "rds"]} onFetch={fetchData} />
       <DataTable service={service} data={data} loading={loading} />
     </div>
   );

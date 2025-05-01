@@ -25,7 +25,7 @@ const Login = () => {
       const userRole = res.data.role.toLowerCase();
       const redirectPath = userRole === "admin" 
         ? loginConfig.navigation.admin.path 
-        : loginConfig.navigation.default.path;
+        : (userRole === "read_only" ? loginConfig.navigation.read_only.path : loginConfig.navigation.default.path);
       
       navigate(redirectPath);
       
